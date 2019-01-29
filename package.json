@@ -1,0 +1,16 @@
+{
+  "name": "command-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "test/app.spec.js",
+    "start": "node src/app.js"
+  },
+  "author": "Jordy Baylac",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "readline-sync": "^1.4.9"
+  }
+}
