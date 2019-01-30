@@ -1,40 +1,22 @@
 
-const acceptedCommands = {
-    SET: {
-        identifier: 'SET',
-        handler: setHandler
-    },
-    GET: {
-        identifier: 'GET',
-        handler: setHandler
-    },
-    UNSET: {
-        identifier: 'UNSET',
-        handler: setHandler
-    },
-    COUNT: {
-        identifier: 'COUNT',
-        handler: setHandler
-    },
-    END: {
-        identifier: 'END',
-        handler: setHandler
-    }
-}
+const acceptedCommands = ['SET', 'GET', 'UNSET', 'COUNT', 'END']
 
-const isAcceptedCommand = action => acceptedCommands[action] != null;
+const isAcceptedCommand = commandName => acceptedCommands.includes(commandName) != null;
 
-const extractFromLine = (commandLine) => {
+const extractCommand = (commandLine) => {
     if (!commandLine)
         throw new Error("command line cannot be empty");
 
-    const actionSplit = commandLine.split(' ');
-    const command = actionSplit[0];
-    if (!isAcceptedCommand(command))
-        throw new Error("a command must be one of", Object.values(acceptedCommands));
+    const commandSplit = commandLine.split(' ');
+    const commandName = commandSplit[0];
+    
+    if (!isAcceptedCommand(commandName))
+        throw new Error("a command must be one of " + Object.values(acceptedCommands));
 
-    const handler = acceptedCommands[command].handler;
-    handler(actionSplit.slice(0));
+    return {
+        name: commandName,
+        arguments: commandSplit.slice(0)
+    }
 }
 
-var arrMatches = strText.match(rePattern);
+exports.extractCommand = extractCommand;

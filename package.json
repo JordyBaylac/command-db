@@ -12,5 +12,6 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "readline-sync": "^1.4.9"
-  }
+  },
+  "devDependencies": {}
 }
