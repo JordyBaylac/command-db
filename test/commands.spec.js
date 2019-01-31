@@ -13,6 +13,13 @@ describe('#Commands verification', function () {
         commandHandler = new TransactionalCommandHandler(storage)
     })
 
+    context('Validation', () => {
+        it('empty command should throw error', function () {
+            const badHandling = () => commandHandler.process()
+            expect(badHandling).to.throw('command line cannot be empty')
+        })
+    })
+
     context('Part 1', () => {
 
         it('GET a non stored variable should return "NULL"', function () {
@@ -102,7 +109,6 @@ describe('#Commands verification', function () {
             res = commandHandler.process('ROLLBACK')
             expect(res).to.equal('INVALID ROLLBACK')
         })
-
         
         it('ROLLBACK a nested transaction and COMMIT previous work should behave correctly', function () {
             commandHandler.process('SET a 50')
@@ -126,10 +132,8 @@ describe('#Commands verification', function () {
             res = commandHandler.process('GET a')
             expect(res).to.equal('60')
         })
-
-        // line 185
-        //'UNSET should works inside a BEGIN transaction'
-        it('ROLLBACK when there is no open transaction should return "INVALID ROLLBACK"', function () {
+        
+        it('COUNT in nested and outer scopes should work as expected', function () {
             commandHandler.process('SET a 10')
             commandHandler.process('BEGIN')
             let res = commandHandler.process('COUNT 10')
