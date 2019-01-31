@@ -1,5 +1,9 @@
 
 const { Scope, NullScope } = require('./scope');
+const util = require('util')
+function printScope(title, scope) {
+    console.log(title, util.inspect(scope, false, null, true))
+}
 
 class InMemoryDB {
 
@@ -12,22 +16,25 @@ class InMemoryDB {
         this.scopes.push(new Scope(this._lastScope()));
     }
 
-    rollbackTransaction() {
+    rollbackLastTransaction() {
+        if (this.scopes.length === 1)
+            return false;
         this.scopes.pop();
+        return true;
     }
 
-    commitTransacton() {
+    commitAllTransactions() {
+        // printScope('root', this.rootScope)
         for (let i = 1; i < this.scopes.length; i++) {
             const scope = this.scopes[i];
+            // printScope(`local ${i}`, scope)
             this.rootScope.mergeFrom(scope);
         }
-        this.scopes = [];
+        this.scopes = [this.rootScope];
     }
 
     _lastScope() {
-        return this.scopes.length > 0 
-            ? this.scopes[this.scopes.length - 1] 
-            : this.rootScope;
+        return this.scopes[this.scopes.length - 1];
     }
 
     set(name, value) {        

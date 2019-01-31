@@ -2,10 +2,10 @@
 const { Record, RecordStatus } = require('./record');
 
 class NullScope {
-    setRecord(recname, valueord){ };
-    getRecord(name) { return null;};
-    unsetRecord(name) { return false;};
-    countByValue(value) { return 0;};
+    setRecord(recname, valueord) { };
+    getRecord(name) { return null; };
+    unsetRecord(name) { return false; };
+    countByValue(value, unsetRecords) { return 0; };
 }
 
 class Scope {
@@ -20,7 +20,8 @@ class Scope {
     }
 
     mergeFrom(otherScope) {
-        otherScope.records.forEach(this.setRecord);
+        Object.values(otherScope.records)
+            .forEach((r) => this.setRecord(r.name, r.value));
     }
 
     setRecord(name, value) {
@@ -50,10 +51,22 @@ class Scope {
         return true;
     }
 
-    countByValue(value) {
+    countByValue(value, unsetRecords) {
+        unsetRecords = unsetRecords || []
+
         const recordsMatchingValue = Object.values(this.records)
-            .filter(record => record.status !== RecordStatus.UNSET && record.value === value);
-        return recordsMatchingValue.length;
+            .filter(record => {
+                return record.status !== RecordStatus.UNSET
+                    && record.value === value
+                    && unsetRecords.indexOf(record.name) === -1;
+            });
+
+        const currentUnsetRecords = Object.values(this.records)
+            .filter(record => record.status === RecordStatus.UNSET)
+            .map(record => record.name);
+
+        const predecessorCount = this.parentScope.countByValue(value, [...unsetRecords, ...currentUnsetRecords]);;
+        return recordsMatchingValue.length + predecessorCount;
     }
 
 }

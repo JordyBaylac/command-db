@@ -1,5 +1,8 @@
 
-const acceptedCommands = ['SET', 'GET', 'UNSET', 'COUNT', 'END']
+const acceptedCommands = [
+    'SET', 'GET', 'UNSET', 'COUNT', 'END',
+    'BEGIN', 'ROLLBACK', 'COMMIT'
+]
 
 const isAcceptedCommand = commandName => acceptedCommands.includes(commandName) != null;
 
@@ -17,13 +20,13 @@ class CommandHandler {
     extractCommand(commandLine) {
         if (!commandLine)
             throw new Error("command line cannot be empty");
-    
+
         const commandSplit = commandLine.split(' ');
         const commandName = commandSplit[0];
-    
+
         if (!isAcceptedCommand(commandName))
             throw new Error("a command must be one of " + Object.values(acceptedCommands));
-    
+
         return {
             name: commandName,
             arguments: commandSplit.slice(1)
@@ -48,6 +51,16 @@ class CommandHandler {
             case 'COUNT':
                 const count = storage.count.apply(storage, command.arguments);
                 result = count;
+                break;
+            case 'BEGIN':
+                storage.beginTransaction.apply(storage);
+                break;
+            case 'ROLLBACK':
+                const isOk = storage.rollbackLastTransaction.apply(storage);
+                result = !isOk ? 'INVALID ROLLBACK' : '';
+                break;
+            case 'COMMIT':
+                storage.commitAllTransactions.apply(storage);
                 break;
         }
 
