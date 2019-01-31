@@ -1,11 +1,10 @@
 const readlineSync = require('readline-sync');
 const chalk = require('chalk');
 
-const { createStorage } = require('./storage/db');
-const { createCommandHandler } = require('./commands/command_handler');
+const { Container } = require('./config/dependecy_management')
 
-const storage = createStorage();
-const commandHandler = createCommandHandler(storage);
+const commandHandler = Container.CommandHandler;
+printAvailableCommands(commandHandler);
 
 readlineSync.promptLoop(function (input) {
 
@@ -25,6 +24,11 @@ readlineSync.promptLoop(function (input) {
     }
 );
 
+function printAvailableCommands(commandHandler) {
+    const acceptedCommands = commandHandler.getAcceptedCommands().toString();
+    console.log(chalk.yellow.bold('* Available commands: ' + acceptedCommands));
+}
+
 function printResult(text) {
     if (!text && text.length === 0)
         return;
@@ -34,13 +38,3 @@ function printResult(text) {
 function printError(err) {
     return console.log(chalk.red.bold(err.toString()));
 }
-
-
-
-
-// console.log(chalk.blue.bgRed.bold('Hello world!'));
-// console.log(chalk.red('Hello', chalk.underline.bgBlue('world') + '!'));
-
-// // Wait for user's response.
-// const userName = readlineSync.question('May I have your name? ');
-// console.log(chalk.blue('Hi ' + userName + '!'));

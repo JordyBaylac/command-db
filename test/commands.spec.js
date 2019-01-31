@@ -1,17 +1,16 @@
 
-const { createStorage } = require('../src/storage/db')
-const { createCommandHandler } = require('../src/commands/command_handler')
+const { InMemoryDB } = require('../src/storage/inmemory_db')
+const { TransactionalCommandHandler } = require('../src/commands/transactional_command_handler')
 
 var expect = require('chai').expect
 
 describe('#Commands verification', function () {
-
-    let storage
-    let commandHandler
+    
+    let commandHandler = null;
 
     beforeEach(() => {
-        storage = createStorage()
-        commandHandler = createCommandHandler(storage)
+        const storage = new InMemoryDB()
+        commandHandler = new TransactionalCommandHandler(storage)
     })
 
     context('Part 1', () => {

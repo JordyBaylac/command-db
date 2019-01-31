@@ -1,9 +1,5 @@
 
 const { Scope, NullScope } = require('./scope');
-const util = require('util')
-function printScope(title, scope) {
-    console.log(title, util.inspect(scope, false, null, true))
-}
 
 class InMemoryDB {
 
@@ -56,4 +52,4 @@ class InMemoryDB {
 
 }
 
-exports.createStorage = () => new InMemoryDB();
+exports.InMemoryDB = InMemoryDB;
