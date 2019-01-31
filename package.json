@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "test": "test/app.spec.js",
+    "test": "npx mocha test/commands.spec.js",
     "start": "node src/app.js"
   },
   "author": "Jordy Baylac",
@@ -13,5 +13,8 @@
     "chalk": "^2.4.2",
     "readline-sync": "^1.4.9"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
 }
