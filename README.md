@@ -1,5 +1,7 @@
 # In-memory transactional database example. 
 
+[![CircleCI](https://circleci.com/gh/JordyBaylac/command-db.svg?style=svg)](https://circleci.com/gh/JordyBaylac/command-db)
+
 This expose a key-value storage, implemented in memory. It supports transactional commands. Example:
 
 ```bash
