@@ -1,8 +1,6 @@
 # In-memory transactional database example. 
 
-[![CircleCI](https://circleci.com/gh/JordyBaylac/command-db.svg?style=svg)](https://circleci.com/gh/JordyBaylac/command-db)
-
-[![Coverage Status](https://coveralls.io/repos/github/JordyBaylac/command-db/badge.svg?branch=master)](https://coveralls.io/github/JordyBaylac/command-db?branch=master)
+[![CircleCI](https://circleci.com/gh/JordyBaylac/command-db.svg?style=svg)](https://circleci.com/gh/JordyBaylac/command-db) [![Coverage Status](https://coveralls.io/repos/github/JordyBaylac/command-db/badge.svg?branch=master)](https://coveralls.io/github/JordyBaylac/command-db?branch=master)
 
 This expose a key-value storage, implemented in memory. It supports transactional commands. Example:
 

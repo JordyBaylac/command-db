@@ -9,8 +9,7 @@
     "transactional": "node src/app.js --transactional",
     "test": "npx mocha test/commands.spec.js",
     "coverage": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- -- -u exports -R spec test/**/*",
-    "report-coverage": "cat coverage/lcov.info | node node_modules/coveralls/bin/coveralls.js",
-    "report-coverage2": "cat ./coverage/lcov.info | coveralls"
+    "report-coverage": "cat coverage/lcov.info | node node_modules/coveralls/bin/coveralls.js"
   },
   "author": "Jordy Baylac",
   "license": "ISC",
