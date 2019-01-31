@@ -12,3 +12,6 @@ jobs:
       - run: 
           name: test
           command: 'npm test'
+      - run:
+          name: coverage
+          command: 'npm run coverage && npm run report-coverage'
